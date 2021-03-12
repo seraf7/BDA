@@ -1,0 +1,4 @@
+-- @Autor:        Humberto Serafín Castillo López
+-- @Fecha:        07/03/2021
+-- @Descripción:  Script para realizar la creación de una tabla que almacenará
+--                los roles existentes en la base de datos
