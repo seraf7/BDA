@@ -7,18 +7,8 @@
 PROMPT Conectando como usuario sys
 CONNECT sys/hola1234* AS sysdba
 
---Se Verifica el estado de la base de datos
-DECLARE
-  v_count NUMBER;
-  v_username VARCHAR2(16) := 'sclbda2';
-BEGIN
-  SELECT COUNT(*) INTO v_count FROM v$instance WHERE status = 'STARTED';
-  IF v_count < 1 THEN
-    --Inicia la instancia en modo mount
-    EXECUTE IMMEDIATE 'ALTER DATABASE NOMOUNT';
-  END IF;
-END;
-/
+--Se inicia la instancia en modo nomount
+STARTUP nomount
 
 --Termina el script si ocurre un error y deshace cambios realizados
 whenever sqlerror exit rollback;
