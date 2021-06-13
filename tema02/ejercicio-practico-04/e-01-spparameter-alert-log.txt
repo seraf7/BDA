@@ -1,0 +1,21 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         15/04/2021
+# @Descripción:   Descripción de los parámetros de inicialización usados por
+#                 la BD, obtenidos del archivo Alert Log
+
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0.
+ORACLE_HOME:    /u01/app/oracle/product/19.3.0/dbhome_1
+System name:	Linux
+Node name:	pc-scl.fi.unam
+Release:	4.18.0-240.15.1.el8_3.x86_64
+Version:	#1 SMP Tue Feb 16 14:27:25 PST 2021
+Machine:	x86_64
+Using parameter settings in server-side spfile /u01/app/oracle/product/19.3.0/dbhome_1/dbs/spfilesclbda2.ora
+System parameters with non-default values:
+  memory_target            = 768M
+  control_files            = "/u01/app/oracle/oradata/SCLBDA2/control01.ctl"
+  control_files            = "/u02/app/oracle/oradata/SCLBDA2/control02.ctl"
+  control_files            = "/u03/app/oracle/oradata/SCLBDA2/control03.ctl"
+  db_securefile            = "PREFERRED"
+  db_name                  = "sclbda2"
