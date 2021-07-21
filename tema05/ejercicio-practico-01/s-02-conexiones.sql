@@ -14,11 +14,9 @@ CREATE TABLE serafin0501.t01_session_data AS
   FROM v$session
   WHERE username = 'SYS'
   AND osuser <> 'oracle';
-
 COMMIT;
 
-set serveroutput on
-
+--Creación de trigger para capturar nuevas sesiones
 CREATE OR REPLACE TRIGGER trg_captura_sesion
   AFTER INSERT ON serafin0501.t01_session_data
   FOR EACH ROW
@@ -32,23 +30,14 @@ CREATE OR REPLACE TRIGGER trg_captura_sesion
     v_process VARCHAR2(24);
     v_port NUMBER;
   BEGIN
-    --Obtiene datos de la sesión
+    --Obtiene y guarda datos de la sesión
     SELECT sid, logon_time, username, status, server, osuser, process, port
     INTO v_sid, v_logon, v_username, v_status, v_server, v_osuser,
       v_process, v_port
     FROM v$session
     WHERE osuser <> 'oracle';
 
-    -- :new.sid = v_sid;
-    -- :new.logon_time = v_logon;
-    -- :new.username = v_username;
-    -- :new.status = v_status;
-    -- :new.server = v_server;
-    -- :new.osuser = v_osuser;
-    -- :new.process = v_process;
-    -- :new.port = v_port;
-
-    --Actualiza el registro
+    --Actualiza el registro creado
     UPDATE serafin0501.t01_session_data
     SET sid = v_sid, logon_time = v_logon, username = v_username,
       status = v_status, server = v_server, osuser = v_osuser,
@@ -63,13 +52,6 @@ CONNECT sys/system2@sclbda2 AS sysdba
 
 --Registro de la sesión iniciada
 INSERT INTO serafin0501.t01_session_data(id) VALUES (2);
-
--- INSERT INTO serafin0501.t01_session_data(id, sid, logon_time, username, status,
---   server, osuser, process, port)
---   SELECT 2, sid, logon_time, username, status, server, osuser, process, port
---   FROM v$session
---   WHERE username = 'SYS'
---   AND osuser <> 'oracle';
 COMMIT;
 
 --Conexión en modo dedicado
@@ -78,14 +60,6 @@ CONNECT serafin0501/serafin@sclbda2_dedicated
 
 --Registro de la sesión iniciada
 INSERT INTO serafin0501.t01_session_data(id) VALUES (3);
-
--- INSERT INTO serafin0501.t01_session_data(id, sid, logon_time, username, status,
---   server, osuser, process, port)
---   SELECT 3, sid, logon_time, username, status, server, osuser, process, port
---   FROM v$session
---   WHERE username = 'SERAFIN0501'
---   AND server = 'DEDICATED';
-
 COMMIT;
 
 --Conexión en modo compartido
@@ -94,12 +68,4 @@ CONNECT serafin0501/serafin@sclbda2_shared
 
 --Registro de la sesión iniciada
 INSERT INTO serafin0501.t01_session_data(id) VALUES (4);
-
--- INSERT INTO serafin0501.t01_session_data(id, sid, logon_time, username, status,
---   server, osuser, process, port)
---   SELECT 4, sid, logon_time, username, status, server, osuser, process, port
---   FROM v$session
---   WHERE username = 'SERAFIN0501'
---   AND server <> 'DEDICATED';
-
 COMMIT;
