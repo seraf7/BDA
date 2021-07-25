@@ -34,7 +34,7 @@ PROMPT Realizando carga de cadenas aleatorias...
 DECLARE
   v_rows NUMBER;
 BEGIN
-  v_rows := 1000 * 300;
+  v_rows := 1000 * 900;
   --Ciclo con 300 000 iteraciones
   FOR v_index in 1 .. v_rows LOOP
     --Inserción de una cadena aleatoria en la tabla

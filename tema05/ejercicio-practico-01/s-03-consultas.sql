@@ -3,6 +3,10 @@
 -- @Descripción:  Consultas informativas de los procesos implicados en el
 --                modo compartido de la BD
 
+--Conexión como sys en modo compartido
+PROMPT Conectando como sys en modo compartido...
+CONNECT sys/system2@sclbda2_shared AS sysdba
+
 --Tabla de configuración de los dispatchers
 CREATE TABLE serafin0501.t02_dispatcher_config AS
   SELECT 1 AS id, dispatchers, connections, sessions, service

@@ -3,6 +3,10 @@
 -- @Descripción:  Script para obtener información de las sesiones creadas por
 --                usuarios y procesos de la instancia
 
+--Conexión como sys en modo compartido
+PROMPT Conectando como sys...
+CONNECT sys/system2 AS sysdba
+
 --Tabla informativa de la sesión del usuario sys
 CREATE TABLE serafin0501.t07_session_info_context AS
   SELECT
@@ -42,10 +46,10 @@ CREATE TABLE serafin0501.t11_foreground_process AS
 
 --Consulta de proceso del SO del cliente para la sesión
 --os_client_process_id en t08_session_info_view
-!echo "Proceso del lado del cliente"
-!ps -ef | grep 52974
+!echo "Proceso del lado del cliente..."
+!ps -ef | grep 65051
 
 --Consulta del proceso del SO del servidor para la sesión
 --sosid en t09_process_info
-!echo "Proceso del lado del servidor"
-!ps -ef | grep 52977
+!echo "Proceso del lado del servidor..."
+!ps -ef | grep 65053
