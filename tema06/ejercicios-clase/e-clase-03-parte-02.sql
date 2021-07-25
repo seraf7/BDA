@@ -2,12 +2,12 @@
 -- @Fecha:        07/07/2021
 -- @Descripción:  Verificación del uso de almacenamiento de un tablespace
 
--- A) Creación de usuario
+-- A) Creación tabla si crear extensiones
 CREATE TABLE serafin06_store.test(ID NUMBER)
 SEGMENT CREATION DEFERRED;
 
 -- B) Programa PL/SQL para usar todo el espacio del tablespace
---Activa salida de consola
+--Activa salida de mensajes en consola
 SET SERVEROUTPUT ON
 --Programa
 DECLARE
@@ -16,12 +16,10 @@ DECLARE
 BEGIN
   -- Ciclo infinito
   LOOP
-    --Bloque anidado
+    --Bloque anónimo anidado
     BEGIN
-      --Reserva una nueva extensión
+      --Reserva una nueva extensión con SQL dinámico
       EXECUTE IMMEDIATE 'alter table serafin06_store.test allocate extent';
-      --Incrementa el contador de extensiones
-      --v_extensiones := v_extensiones + 1;
     EXCEPTION
       --Manejo de cualquier excepción
       WHEN OTHERS THEN
@@ -40,7 +38,7 @@ BEGIN
   WHERE segment_name = 'TEST'
   AND owner = 'SERAFIN06_STORE';
   dbms_output.put_line('Total de extensiones: ' || v_extensiones);
-  dbms_output.put_line('Total de espacio: ' || v_total_espacio || 'M');
+  dbms_output.put_line('Total de espacio:     ' || v_total_espacio || 'M');
 END;
 /
 

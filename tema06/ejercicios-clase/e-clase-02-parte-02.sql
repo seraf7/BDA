@@ -3,7 +3,8 @@
 -- @Descripción:  Ejercicios del tema 06 parte 02. Enfoque a la creación y
 --                configuración de tablespace
 
--- A) Creación de un tablespace
+-- A) Creación de un tablespace de tamaño fijo, manejo de extensiones local y
+-- administración de segmentos automática
 CREATE TABLESPACE store_tbs1
 DATAFILE '/u01/app/oracle/oradata/SCLBDA2/store_tbs01.dbf' SIZE 20m
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE
@@ -18,7 +19,9 @@ DATAFILE
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE
 SEGMENT SPACE MANAGEMENT AUTO;
 
--- C) Tablespace personalizado
+-- C) Tablespace personalizado, un data file que se va a sobreescribir si
+-- existe, sin generar datos de REDO, crecimiento dinámico, con extensiones de
+-- tamaño fijo y administración automática de los segmentos
 CREATE TABLESPACE store_tbs_custom
 DATAFILE '/u01/app/oracle/oradata/SCLBDA2/store_tbs_custom_01.dbf'
   SIZE 10m
@@ -30,7 +33,7 @@ OFFLINE
 EXTENT MANAGEMENT LOCAL UNIFORM SIZE 64k
 SEGMENT SPACE MANAGEMENT AUTO;
 
--- D) Usuario con tablespace por default
+-- D) Usuario con tablespace por default y cuota ilimitada
 CREATE USER serafin06_store IDENTIFIED BY serafin
 QUOTA UNLIMITED ON store_tbs1
 DEFAULT TABLESPACE store_tbs1;

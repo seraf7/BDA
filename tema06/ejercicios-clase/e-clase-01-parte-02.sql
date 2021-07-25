@@ -16,9 +16,10 @@ FROM dba_tablespaces;
 SELECT U.username, U.default_tablespace, U.temporary_tablespace,
   Q.bytes / (1024 * 1024) AS quota_mb,
   -- Valida como mostrar la quota asignada
-  CASE 
+  CASE
     WHEN Q.max_bytes = -1 THEN 'UNLIMITED'
-    ELSE TO_CHAR(Q.max_bytes / (1024 * 1024)) END AS allocated_mb,
+    ELSE TO_CHAR(Q.max_bytes / (1024 * 1024))
+  END AS allocated_mb,
   Q.blocks
 FROM dba_users U
 JOIN dba_ts_quotas Q ON U.username = Q.username
