@@ -17,3 +17,8 @@ chown oracle:oinstall /unam-bda/archivelogs/SCLBDA2/disk_b
 echo "Cambiando permisos..."
 chmod 750 /unam-bda/archivelogs/SCLBDA2/disk_a
 chmod 750 /unam-bda/archivelogs/SCLBDA2/disk_b
+
+# Se cambian permisos de manera recursiva
+#cd /unam-bda
+#chown -R oracle:oinstall archivelogs/SCLBDA2/disk_a
+#chown -R oracle:oinstall archivelogs/SCLBDA2/disk_b
