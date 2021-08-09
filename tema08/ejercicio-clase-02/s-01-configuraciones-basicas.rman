@@ -1,0 +1,45 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         05/08/2021
+# @Descripción:   Instrucciones para aplicar Configuraciones básicas de RMAN
+
+# En terminal acceder a RMAN como usuario oracle
+# export ORACLE_SID=sclbda2
+# rman
+
+# Conectarse a la base de datos target
+# En caso de no funcionar el backup, intentar sin nombre del servicio
+connect target "sys@sclbda2 as sysdba"
+
+# Establecer un directorio default para los respaldos y el backup automático
+# del archivo de control
+
+configure channel device type disk
+format '/unam-bda/backups/backup_%U.bkp' maxpiecesize 2G;
+
+configure controlfile autobackup
+format for device type disk to '/unam-bda/backups/ctl_file%F.bkp';
+
+# Se realiza un full backup con el tag autos_full_inicial
+backup database plus archivelog
+tag autos_full_inicial;
+
+# Se despliega la lista de los respaldos realizados
+list backup;
+
+# BS Key generadas
+# 9 ... 16. Para el tag anterior 13 ... 16
+
+# Lista de backup pieces
+# List of Archived Logs in backup set: 1 archivo
+# List of Datafiles in backup set: 1 archivo
+# SPFILE Included, Control File Included: 1 archivo
+
+# Mostrar resumen de los respaldos creados
+list backup summary;
+
+# Se verifica que archivos pueden ser eliminados
+report obsolete;
+
+# Se observa que uno de los archivos recientemente creados, ya puede ser
+# eliminado (corresponde a los Archived Redo Logs); esto se debe a que la
+# información que contienen ya se encuentra en los data files 
