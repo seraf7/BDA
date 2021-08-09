@@ -1,0 +1,26 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         05/08/2021
+# @Descripción:   Instrucciones para realizar un primer respaldo de la BD
+#                 y limpieza de archivos obsoletos
+
+# En terminal acceder a RMAN como usuario oracle
+# export ORACLE_SID=sclbda2
+# rman
+
+# Conectarse a la base de datos target
+# En caso de no funcionar el backup, intentar sin nombre del servicio
+connect target "sys@sclbda2 as sysdba"
+
+# Se realiza el backup completo incluyendo Redo Logs, la ruta indicada debe
+# existir. El comodin %U genera un nombre único para el archivo
+backup database plus archivelog format "/unam-bda/backups/backup_%U";
+
+# En otra terminal consultar el tamaño del archivo creado
+# sudo ls -ltrh /unam-bda/backups/
+
+# Se eliminan los archivos obsoletos
+delete obsolete;
+
+# Depues de realizar la limpieza de lo datos, RMAN borró el archivo que
+# correspondía al respaldo de los archive redo logs, además de haber borrado
+# todo los archive redo logs existentes
