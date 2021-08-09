@@ -6,8 +6,8 @@
 --se sale de SQL *Plus
 whenever  sqlerror exit rollback
 
-Prompt creando usuario jrc_autos_bda
-connect jrc_autos_bda/jorge
+Prompt creando usuario scl_autos_bda
+connect scl_autos_bda/serafin
 
 set define off
 

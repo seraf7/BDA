@@ -1,6 +1,6 @@
+-- Este script se debe ejecutar como el usuario scl_autos_bda
+-- connect scl_autos_bda/serafin
 
-
---
 -- sequence: auto_seq
 --
 
@@ -35,12 +35,15 @@ create table agencia(
     nombre              varchar2(40)     not null,
     clave               varchar2(8)      not null,
     agencia_anexa_id    number(10, 0),
-    constraint agencia_pk primary key (agencia_id),
+    constraint agencia_pk primary key (agencia_id)
+    using index (
+      create unique index agencia_pk on agencia(agencia_id)
+      tablespace indexes_tbs
+    ),
     constraint agencia_anexa_id_fk foreign key (agencia_anexa_id)
     references agencia(agencia_id)
 )
-;
-
+tablespace clientes_tbs;
 
 
 --
@@ -55,9 +58,12 @@ create table cliente(
     num_identificacion    varchar2(18)     not null,
     email                 varchar2(500)    not null,
     constraint cliente_pk primary key (cliente_id)
+    using index (
+      create unique index cliente_id on cliente(cliente_id)
+      tablespace indexes_tbs
+    )
 )
-;
-
+tablespace clientes_tbs;
 
 
 --
@@ -69,9 +75,12 @@ create table status_auto(
     clave             varchar2(20)    not null,
     descripcion       varchar2(40)    not null,
     constraint status_auto_pk primary key (status_auto_id)
+    using index (
+      create unique index status_auto_pk on status_auto(status_auto_id)
+      tablespace indexes_tbs
+    )
 )
-;
-
+tablespace autos_tbs;
 
 
 --
@@ -92,7 +101,11 @@ create table auto(
     status_auto_id    number(2, 0)     not null,
     agencia_id        number(10, 0)    not null,
     cliente_id        number(10, 0),
-    constraint auto_pk primary key (auto_id),
+    constraint auto_pk primary key (auto_id)
+    using index (
+      create unique index auto_pk on auto(auto_id)
+      tablespace indexes_tbs
+    ),
     constraint auto_agencia_id_fk foreign key (agencia_id)
     references agencia(agencia_id),
     constraint auto_cliente_id_fk foreign key (cliente_id)
@@ -100,8 +113,7 @@ create table auto(
     constraint auto_status_id_fk foreign key (status_auto_id)
     references status_auto(status_auto_id)
 )
-;
-
+tablespace autos_tbs;
 
 
 --
@@ -113,12 +125,15 @@ create table auto_carga(
     peso_maximo         number(10, 2)    not null,
     volumen             number(10, 2)    not null,
     tipo_combustible    char(1)          not null,
-    constraint auto_carga_pk primary key (auto_id),
+    constraint auto_carga_pk primary key (auto_id)
+    using index (
+      create unique index auto_carga_pk on auto_carga(auto_id)
+      tablespace indexes_tbs
+    ),
     constraint refauto2 foreign key (auto_id)
     references auto(auto_id)
 )
-;
-
+tablespace autos_tbs;
 
 
 --
@@ -130,12 +145,15 @@ create table auto_particular(
     num_cilindros    number(1, 0)     not null,
     num_pasajeros    number(2, 0)     not null,
     clase            char(1)          not null,
-    constraint auto_particular_pk primary key (auto_id),
+    constraint auto_particular_pk primary key (auto_id)
+    using index (
+      create unique index auto_particular_pk on auto_particular(auto_id)
+      tablespace indexes_tbs
+    ),
     constraint refauto1 foreign key (auto_id)
     references auto(auto_id)
 )
-;
-
+tablespace autos_tbs;
 
 
 --
@@ -147,14 +165,18 @@ create table historico_status_auto(
     fecha_status           timestamp(6)     not null,
     status_auto_id         number(2, 0)     not null,
     auto_id                number(10, 0)    not null,
-    constraint historico_status_auto_pk primary key (historico_status_auto_id),
+    constraint historico_status_auto_pk primary key (historico_status_auto_id)
+    using index (
+      create unique index historico_status_auto_pk
+      on historico_status_auto(historico_status_auto_id)
+      tablespace indexes_tbs
+    ),
     constraint h_status_auto_status_auto_id_fk foreign key (status_auto_id)
     references status_auto(status_auto_id),
     constraint h_status_auto_auto_id_fk foreign key (auto_id)
     references auto(auto_id)
 )
-;
-
+tablespace autos_tbs;
 
 
 --
@@ -167,12 +189,15 @@ create table pago_auto(
     fecha_pago            timestamp(6)     not null,
     importe               number(8, 2)     not null,
     importe_devolucion    number(8, 2),
-    constraint pago_auto_pk primary key (num_pago, auto_id),
+    constraint pago_auto_pk primary key (num_pago, auto_id)
+    using index (
+      create unique index pago_auto_pk on pago_auto(num_pago, auto_id)
+      tablespace indexes_tbs
+    ),
     constraint pago_auto_id_fk foreign key (auto_id)
     references auto(auto_id)
 )
-;
-
+tablespace clientes_tbs;
 
 
 --
@@ -186,29 +211,51 @@ create table tarjeta_cliente(
     mes_expira          varchar2(2)      not null,
     codigo_seguridad    number(3, 0)     not null,
     tipo                char(1)          not null,
-    constraint tarjeta_cliente_pk primary key (cliente_id),
+    constraint tarjeta_cliente_pk primary key (cliente_id)
+    using index (
+      create unique index tarjeta_cliente_pk on tarjeta_cliente(cliente_id)
+      tablespace indexes_tbs
+    ),
     constraint tarjeta_cliente_id_fk foreign key (cliente_id)
     references cliente(cliente_id)
 )
-;
-
+tablespace clientes_tbs;
 
 
 --
 -- index: auto_num_serie_uk
 --
-
 create unique index auto_num_serie_uk on auto(num_serie)
-;
+tablespace indexes_tbs;
 --
 -- index: cliente_email_uk
 --
-
 create unique index cliente_email_uk on cliente(num_identificacion, email)
-;
+tablespace indexes_tbs;
 --
 -- index: tarjeta_cliente_num_tarjeta_uk
 --
-
 create unique index tarjeta_cliente_num_tarjeta_uk on tarjeta_cliente(num_tarjeta)
-;
+tablespace indexes_tbs;
+
+
+--Definición de índices de llaves foráneas
+create index agencia_agencia_anexa_id_ix on agencia(agencia_anexa_id)
+tablespace indexes_tbs;
+
+create index historico_sa_status_auto_ix
+on historico_status_auto(status_auto_id)
+tablespace indexes_tbs;
+
+create index historico_sa_auto_id_ix
+on historico_status_auto(auto_id)
+tablespace indexes_tbs;
+
+create index auto_status_id_ix on auto(status_auto_id)
+tablespace indexes_tbs;
+
+create index auto_agencia_id_ix on auto(agencia_id)
+tablespace indexes_tbs;
+
+create index auto_cliente_id_ix on auto(cliente_id)
+tablespace indexes_tbs;

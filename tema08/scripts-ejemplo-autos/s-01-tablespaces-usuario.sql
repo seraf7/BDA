@@ -45,7 +45,7 @@ DATAFILE '/u01/app/oracle/oradata/SCLBDA2/indexes01.dbf'
 
 -- Creación de usuario con cuota ilimitada
 PROMPT Creando usuario scl_autos_bda...
-CREATE USER scl_autos_bda IDENTIFIED BY scl_autos_bda
+CREATE USER scl_autos_bda IDENTIFIED BY serafin
 DEFAULT TABLESPACE autos_tbs;
 
 --Asignación de cuotas de almacenamiento
@@ -56,7 +56,8 @@ ALTER USER scl_autos_bda QUOTA UNLIMITED ON indexes_tbs;
 
 --Asignación de privilegios
 PROMPT Asignando privilegios a scl_autos_bda...
-GRANT CREATE SESSION, CREATE TABLE, CREATE INDEX, CREATE SEQUENCE
+GRANT CREATE SESSION, CREATE TABLE, CREATE PROCEDURE,
+  CREATE SEQUENCE
 TO scl_autos_bda;
 
 --Para regresar a la configuración original
