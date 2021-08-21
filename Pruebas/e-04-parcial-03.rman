@@ -1,0 +1,22 @@
+# @Autor:        Humberto Serafín Castillo López
+# @Fecha:        12/08/2021
+# @Descripción:  Respuestas para el examen parcial 3, ejercicio 04
+
+# A)
+connect target "bd as sysdba"
+backup as backupset tablespace sysaux
+plus archivelog
+format /bak/full_%U;
+
+# B)
+configure channel 1 device type disk format '/u88/backups/%U';
+configure channel 2 device type disk format '/u99/backups/%U';
+backup as backupset incremental level 0 database;
+backup as backupset incremental level 1 database;
+
+# C)
+configure device type disk paralelism 3;
+configure channel 1 device type disk format '/u88/backups/%U';
+configure channel 2 device type disk format '/u77/backups/%U';
+configure channel 3 device type disk format '/u22/backups/%U';
+backup as copy;
