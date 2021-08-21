@@ -1,3 +1,8 @@
+-- @Autor:        Humberto Serafín Castillo López
+-- @Fecha:        13/08/2021
+-- @Descripción:  Conjunto de pruebas para la creación y relación de objetos
+--                usando esquemas distintos
+
 -- Para usuario de clientes
 CREATE USER administrador_clientes IDENTIFIED BY administrador_clientes;
 -- Se agrega cuota en tablespaces
@@ -30,7 +35,26 @@ CREATE TABLE prueba(
     CREATE UNIQUE INDEX prueba_pk ON administrador_clientes.prueba(id_prueba)
     TABLESPACE indexes_tbs
   )
-) LOB (archivo) STORE AS BASICFILE (TABLESPACE clientes_tbs);
+) LOB (archivo) STORE AS BASICFILE (TABLESPACE clientes_tbs)
+TABLESPACE clientes_tbs;
 
 INSERT INTO prueba(id_prueba, archivo)
 VALUES (1, empty_blob());
+
+-- Privilegios para referencias de esquema
+GRANT REFERENCES ON administrador_clientes.prueba TO administrador_gimnasios;
+
+-- Tabla de administrador_gimnasios
+CREATE TABLE cliente(
+  id_cliente NUMBER NOT NULL,
+  id_prueba NUMBER NOT NULL,
+  CONSTRAINT cliente_pk PRIMARY KEY (id_cliente),
+  CONSTRAINT cliente_prueba_fk FOREIGN KEY (id_prueba)
+  REFERENCES administrador_clientes.prueba(id_prueba)
+);
+
+INSERT INTO cliente(id_cliente, id_prueba)
+VALUES (1, 1);
+
+INSERT INTO cliente(id_cliente, id_prueba)
+VALUES (1, 2);
