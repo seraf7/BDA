@@ -1,0 +1,10 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         05/08/2021
+# @Descripción:   Nuevo respaldo y limpieza de archivos obsoletos
+
+# Se conecta a la instancia
+connect target "sys@sclbda2 as sysdba"
+
+# Se realiza un nuevo full backup
+backup database plus archivelog
+tag ejercicio3;

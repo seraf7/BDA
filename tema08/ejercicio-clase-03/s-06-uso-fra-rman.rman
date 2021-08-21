@@ -1,0 +1,24 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         05/08/2021
+# @Descripción:   Configuración de parámetros para habilitar el uso de la FRA
+
+# Se limpian los parámetros para hacer uso de la FRA
+# Sin ruta para controlfile
+configure controlfile autobackup format for device type disk clear;
+
+# Se limpia el canal configurado
+configure channel device type disk clear;
+
+# Se limpia la ruta para el snapshot del controlfile
+configure snapshot controlfile name clear;
+
+# Se crea un nuevo backup cumulativo
+backup as backupset incremental level 1 cumulative database
+plus archivelog
+tag autos_backup_nivel_1_fra_3;
+
+# Se listan los respaldos
+list backup;
+
+# Se borran obsoletos
+delete obsolete;
