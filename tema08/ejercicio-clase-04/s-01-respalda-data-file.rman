@@ -1,0 +1,12 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         05/08/2021
+# @Descripción:   Respaldo de un tablespace
+
+# Alternativa para entrar a RMAN
+# rman target /
+
+# Se listan los respaldos del data file
+list backup of tablespace sysaux;
+
+# respaldo de un tablespace
+backup as backupset tablespace sysaux;

@@ -1,0 +1,22 @@
+# @Autor:         Humberto Serafín Castillo López
+# @Fecha:         05/08/2021
+# @Descripción:   Recuperación ante el error provocado
+
+# Listar fallas encontradas
+list failure;
+
+# Generar sugerencias
+advise failure;
+
+# Las siguientes instrucciones se extraen del script generado
+# Restaurar el archivo, cambiar por ID del archivo
+restore (datafile 2);
+
+# Actualizar con últimos cambios
+recover datafile 2;
+
+# Se pone online el data file
+sql 'alter database datafile 2 online';
+
+# Finalmente se abre la base de datos
+# alter database open;

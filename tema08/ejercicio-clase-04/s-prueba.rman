@@ -1,0 +1,6 @@
+run{
+  shutdown immediate
+  startup mount
+  report obsolete;
+  alter database open;
+}
